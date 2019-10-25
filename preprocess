@@ -1,0 +1,16 @@
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+import seaborn as sns
+import json_tricks as json
+from collections import OrderedDict
+import os
+import sys
+
+
+ARTICLES = pd.read_json("dataset/articles.json")
+TWITTER_INFLUENCERS = pd.read_json("dataset/twitter_influencers.json")
+TWEETS = pd.read_json("dataset/tweets.json")
+
+print(ARTICLES.shape)
+# print(TWEETS.head())
