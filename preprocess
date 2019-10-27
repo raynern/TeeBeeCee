@@ -6,11 +6,35 @@ import json_tricks as json
 from collections import OrderedDict
 import os
 import sys
+import multiprocessing
 
 
 ARTICLES = pd.read_json("dataset/articles.json")
-TWITTER_INFLUENCERS = pd.read_json("dataset/twitter_influencers.json")
-TWEETS = pd.read_json("dataset/tweets.json")
+# TWITTER_INFLUENCERS = pd.read_json("dataset/twitter_influencers.json")
+# TWEETS = pd.read_json("dataset/tweets.json")
 
 print(ARTICLES.shape)
 # print(TWEETS.head())
+
+pd.set_option('display.max_colwidth',-1)
+
+# ARTICLES = ARTICLES.head(2000)
+
+# print schema
+print("Schema:\n\n",ARTICLES.dtypes)
+print("Number of questions,columns=",ARTICLES.shape)
+
+# Select max velocity > 0.05
+ARTICLES_max_velo_zero_five_plus = ARTICLES[ARTICLES['velocity'] > 0.05]
+print(ARTICLES_max_velo_zero_five_plus.shape)
+print(ARTICLES_max_velo_zero_five_plus['contents'])
+
+# Select fb engagement > 100
+print(ARTICLES_max_velo_zero_five_plus['fb_data'].dtype)
+fb_dict = dict(ARTICLES_max_velo_zero_five_plus['fb_data'])
+fb_df = pd.DataFrame(fb_dict).transpose()
+print(fb_df)
+
+ARTICLES_max_velo_zero_five_plus_fb_one_hundred_plus = ARTICLES_max_velo_zero_five_plus[fb_df['total_engagement_count'] > 100]
+print(ARTICLES_max_velo_zero_five_plus_fb_one_hundred_plus)
+
